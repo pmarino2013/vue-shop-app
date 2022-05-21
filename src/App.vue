@@ -11,9 +11,7 @@ import ProductCard from "./components/ProductCard.vue";
       </div>
     </div>
     <div class="row">
-      <div class="col">
-        <ProductCard />
-      </div>
+      <ProductCard />
     </div>
   </div>
 </template>
@@ -25,6 +23,7 @@ import ProductCard from "./components/ProductCard.vue";
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
   color: #2c3e50;
+
   margin-top: 60px;
 }
 </style>

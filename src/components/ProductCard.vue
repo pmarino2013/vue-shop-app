@@ -9,14 +9,70 @@
       </div>
     </div>
   </div>
+  <div class="col-12 col-md-6">
+    <div class="d-flex justify-content-between fw-bold mb-3">
+      <h3>Vue Logo</h3>
+
+      <h3><small>$</small>{{ publishPrice() }}</h3>
+    </div>
+    <div class="d-flex gap-2">
+      <select class="form-select" aria-label="Default select example">
+        <option v-for="(dep, index) in departmen" :value="dep" :key="index">
+          {{ dep }}
+        </option>
+      </select>
+      <select class="form-select" aria-label="Default select example">
+        <option v-for="(st, index) in style" :value="st" :key="index">
+          {{ st }}
+        </option>
+      </select>
+    </div>
+    <div class="mt-3">
+      <button
+        v-for="(f, index) in fit"
+        class="btn btn-fit me-3 btn-lg"
+        :class="f.status ? 'btn-dark' : 'btn-outline-dark'"
+        :key="index"
+        @click="fitToggle"
+      >
+        ${{ f.price }} <br />{{ f.fit }}
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      departmen: ["Men's", "Women's", "Kids"],
+      style: ["T-Shirt", "V-Neck"],
+      fit: [
+        { fit: "Regular", status: false, price: 22.45 },
+        { fit: "Triblend", status: true, price: 28.95 },
+      ],
+      price: 0,
+    };
+  },
+  methods: {
+    publishPrice() {
+      let precio = this.fit.find((item) => item.status === true);
+      return precio.price;
+    },
+    fitToggle() {
+      this.fit.map((item) => {
+        item.status = !item.status;
+      });
+    },
+  },
+};
 </script>
 
 <style>
 .card img {
   width: 100%;
+}
+.btn-fit {
+  width: 230px;
 }
 </style>
