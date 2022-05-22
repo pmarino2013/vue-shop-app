@@ -2,10 +2,7 @@
   <div class="col-12 col-md-6">
     <div class="card">
       <div class="card-body">
-        <img
-          src="https://cdn-images.threadless.com/threadless-media/artist_shops/shops/vue/products/195796/shirt-1490420513-abd7b25b157f3450ce8c2a09ee51c36e.png?v=3&d=eyJvbmx5X21ldGEiOiBmYWxzZSwgImZvcmNlIjogZmFsc2UsICJvcHMiOiBbWyJ0cmltc2NyaXB0IiwgWzEyNzAuNTcxNDI4NTcxNDI4NCwgMTUwOC44NTcxNDI4NTcxNDI3XSwge31dLCBbImVuY29kZSIsIFsiLnBuZyJdLCB7ImRwaSI6IDMwMH1dLCBbInJlc2l6ZSIsIFs2NDRdLCB7fV0sIFsib3ZlcmxheSIsIFsidGhyZWFkbGVzcy1tZWRpYS9hcnRpc3Rfc2hvcHMvb3ZlcmxheXMvM2RmMjAzNDk1NGU0YzdlMTFhYmQ2NTc5NTRjZDQzZTcvZnJvbnQtMTU3MTMyODM4Ni1lZTg1NTlhN2Y1OGUxZDA0ZTU0M2MwNGJhMTVjM2ZjNS5wbmciXSwgeyJ5IjogNDgwLCAieCI6IDY4MSwgImJhY2tncm91bmQiOiAiZmZmZmZmIn1dLCBbInJlc2l6ZSIsIFtdLCB7IndpZHRoIjogMzUwLCAic3R5bGUiOiAiQ1JPUCIsICJoZWlnaHQiOiAzNTB9XSwgWyJlbmNvZGUiLCBbImpwZyIsIDg1XSwge31dXX0="
-          alt="camiseta"
-        />
+        <img :src="sexToggle" alt="camiseta" />
       </div>
     </div>
   </div>
@@ -16,9 +13,13 @@
       <h3><small>$</small>{{ publishPrice() }}</h3>
     </div>
     <div class="d-flex gap-2">
-      <select class="form-select" aria-label="Default select example">
-        <option v-for="(dep, index) in departmen" :value="dep" :key="index">
-          {{ dep }}
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        v-model="sexo"
+      >
+        <option v-for="(dep, index) in departmen" :value="dep.sex" :key="index">
+          {{ dep.sex }}
         </option>
       </select>
       <select class="form-select" aria-label="Default select example">
@@ -27,7 +28,8 @@
         </option>
       </select>
     </div>
-    <div class="mt-3">
+    <div v-if="sexo !== 'Kids'" class="mt-3">
+      <h5 class="fw-bold">SELECT YOUR FIT</h5>
       <button
         v-for="(f, index) in fit"
         class="btn btn-fit me-3 btn-lg"
@@ -38,31 +40,63 @@
         ${{ f.price }} <br />{{ f.fit }}
       </button>
     </div>
+    <div class="mt-3">
+      <h5 class="fw-bold">COLOR</h5>
+    </div>
+    <div class="d-flex mt-3">
+      <button
+        v-for="(talle, index) in talleToggle"
+        class="btn btn-outline-dark me-3 btn-lg flex-grow-1"
+        :key="index"
+      >
+        {{ talle }}
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
+import { tipo } from "../data/departmen";
+import { talles } from "../data/talles";
 export default {
   data() {
     return {
-      departmen: ["Men's", "Women's", "Kids"],
+      departmen: [...tipo],
       style: ["T-Shirt", "V-Neck"],
       fit: [
         { fit: "Regular", status: false, price: 22.45 },
         { fit: "Triblend", status: true, price: 28.95 },
       ],
       price: 0,
+      sexo: "Men's",
+      medidas: [...talles],
     };
   },
   methods: {
     publishPrice() {
-      let precio = this.fit.find((item) => item.status === true);
+      let precio = { price: 0 };
+      if (this.sexo === "Kids") {
+        precio.price = this.fit[0].price;
+      } else {
+        precio = this.fit.find((item) => item.status === true);
+      }
       return precio.price;
     },
     fitToggle() {
       this.fit.map((item) => {
         item.status = !item.status;
       });
+    },
+  },
+  computed: {
+    sexToggle() {
+      let seleccion = this.departmen.filter((dep) => dep.sex === this.sexo);
+
+      return seleccion[0].image;
+    },
+    talleToggle() {
+      let seleccion = this.medidas.filter((talle) => talle.sexo === this.sexo);
+      return seleccion[0].talles;
     },
   },
 };
