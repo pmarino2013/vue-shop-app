@@ -19,19 +19,8 @@
       :estilo="estilo"
       @response="(valor) => (sexo = valor)"
     />
+    <ProductFit :sexo="sexo" :fit="fit" :fitToggle="fitToggle" />
 
-    <div v-if="sexo !== 'Kids'" class="mt-3">
-      <h5 class="fw-bold">SELECT YOUR FIT</h5>
-      <button
-        v-for="(f, index) in fit"
-        class="btn btn-fit me-3 btn-lg mb-2"
-        :class="f.status ? 'btn-dark' : 'btn-outline-dark'"
-        :key="index"
-        @click="fitToggle"
-      >
-        ${{ f.price }} <br />{{ f.fit }}
-      </button>
-    </div>
     <div class="mt-3">
       <h5 class="fw-bold">COLOR</h5>
     </div>
@@ -73,6 +62,7 @@
 import { tipo } from "../data/departmen";
 import { talles } from "../data/talles";
 import ProductSelectCard from "./ProductSelectCard.vue";
+import ProductFit from "./ProductFit.vue";
 export default {
   data() {
     return {
@@ -134,7 +124,7 @@ export default {
       return this.tallesPorDepartmen.talles;
     },
   },
-  components: { ProductSelectCard },
+  components: { ProductSelectCard, ProductFit },
 };
 </script>
 
@@ -142,9 +132,7 @@ export default {
 .card img {
   width: 100%;
 }
-.btn-fit {
-  width: 230px;
-}
+
 .redes {
   border-radius: 100%;
 }
