@@ -18,23 +18,15 @@
       :departmen="departmen"
       :estilo="estilo"
       @response="(valor) => (sexo = valor)"
+      @designe="(d) => (diseño = d)"
     />
     <ProductFit :sexo="sexo" :fit="fit" :fitToggle="fitToggle" />
 
     <div class="mt-3">
       <h5 class="fw-bold">COLOR</h5>
     </div>
-    <div class="d-flex mt-3">
-      <button
-        v-for="(talle, index) in talleToggle"
-        class="btn me-3 btn-lg flex-grow-1"
-        :class="talle.status ? 'btn-dark' : 'btn-outline-dark'"
-        :key="index"
-        @click="talleClick(index)"
-      >
-        {{ talle.medida }}
-      </button>
-    </div>
+    <ProductTalle :talleToggle="talleToggle" :talleClick="talleClick" />
+
     <div class="d-grid mt-5">
       <button class="btn btn-dark py-3" :disabled="flag">ADD TO CART</button>
       <p class="mt-2">
@@ -63,6 +55,7 @@ import { tipo } from "../data/departmen";
 import { talles } from "../data/talles";
 import ProductSelectCard from "./ProductSelectCard.vue";
 import ProductFit from "./ProductFit.vue";
+import ProductTalle from "./ProductTalle.vue";
 export default {
   data() {
     return {
@@ -72,7 +65,7 @@ export default {
         { fit: "Regular", status: false, price: 22.45 },
         { fit: "Triblend", status: true, price: 28.95 },
       ],
-      price: 0,
+      diseño: "",
       sexo: "Men's",
       medidas: [...talles],
       tallesPorDepartmen: [],
@@ -124,7 +117,7 @@ export default {
       return this.tallesPorDepartmen.talles;
     },
   },
-  components: { ProductSelectCard, ProductFit },
+  components: { ProductSelectCard, ProductFit, ProductTalle },
 };
 </script>
 

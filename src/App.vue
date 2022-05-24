@@ -6,7 +6,7 @@ import ProductCard from "./components/ProductCard.vue";
   <div class="container">
     <div class="row">
       <div class="col">
-        <h1>Vue Shop</h1>
+        <h1>ShirtShop</h1>
         <hr />
       </div>
     </div>
