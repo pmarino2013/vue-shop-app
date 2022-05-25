@@ -14,11 +14,12 @@
     </div>
     <ProductSelectCard
       :sexo="sexo"
+      :design="design"
       :limpiar="limpiar"
       :departmen="departmen"
       :estilo="estilo"
       @response="(valor) => (sexo = valor)"
-      @designe="(d) => (diseño = d)"
+      @designe="(valor) => (design = valor)"
     />
     <ProductFit :sexo="sexo" :fit="fit" :fitToggle="fitToggle" />
 
@@ -28,7 +29,13 @@
     <ProductTalle :talleToggle="talleToggle" :talleClick="talleClick" />
 
     <div class="d-grid mt-5">
-      <button class="btn btn-dark py-3" :disabled="flag">ADD TO CART</button>
+      <button
+        class="btn btn-dark py-3"
+        :disabled="flag"
+        @click="store.addCount()"
+      >
+        ADD TO CART
+      </button>
       <p class="mt-2">
         Free Shipping On US Orders Over $99
         <small>(excluding Shoes, Skateboards, and some Wall Art)</small>
@@ -51,6 +58,7 @@
 </template>
 
 <script>
+import { store } from "../data/store";
 import { tipo } from "../data/departmen";
 import { talles } from "../data/talles";
 import ProductSelectCard from "./ProductSelectCard.vue";
@@ -59,13 +67,14 @@ import ProductTalle from "./ProductTalle.vue";
 export default {
   data() {
     return {
+      store,
       departmen: [...tipo],
-      estilo: ["T-Shirt", "V-Neck"],
+      estilo: ["T-Shirt", "Sweatshirt"],
       fit: [
         { fit: "Regular", status: false, price: 22.45 },
         { fit: "Triblend", status: true, price: 28.95 },
       ],
-      diseño: "",
+      design: "T-Shirt",
       sexo: "Men's",
       medidas: [...talles],
       tallesPorDepartmen: [],
@@ -83,10 +92,13 @@ export default {
       }
       return precio.price;
     },
-    fitToggle() {
-      this.fit.map((item) => {
-        item.status = !item.status;
-      });
+    fitToggle(id) {
+      for (let index = 0; index < this.fit.length; index++) {
+        if (this.fit[index].status === true) {
+          this.fit[index].status = false;
+        }
+      }
+      this.fit[id].status = true;
     },
     talleClick(id) {
       this.limpiar();
@@ -109,7 +121,12 @@ export default {
   computed: {
     sexToggle() {
       let seleccion = this.departmen.filter((dep) => dep.sex === this.sexo);
-      return seleccion[0].image;
+
+      if (this.design === "T-Shirt") {
+        return seleccion[0].image_t;
+      } else {
+        return seleccion[0].image;
+      }
     },
     talleToggle() {
       let seleccion = this.medidas.filter((talle) => talle.sexo === this.sexo);

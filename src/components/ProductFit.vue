@@ -6,7 +6,7 @@
       class="btn btn-fit me-3 btn-lg mb-2"
       :class="f.status ? 'btn-dark' : 'btn-outline-dark'"
       :key="index"
-      @click="fitToggle"
+      @click="fitToggle(index)"
     >
       ${{ f.price }} <br />{{ f.fit }}
     </button>

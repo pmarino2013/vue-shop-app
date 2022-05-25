@@ -1,12 +1,19 @@
 <script setup>
 import ProductCard from "./components/ProductCard.vue";
+import Cart from "./components/Cart.vue";
 </script>
 
 <template>
   <div class="container">
     <div class="row">
+      <div class="col d-flex justify-content-end">
+        <Cart />
+      </div>
+    </div>
+    <div class="row">
       <div class="col">
         <h1>ShirtShop</h1>
+
         <hr />
       </div>
     </div>

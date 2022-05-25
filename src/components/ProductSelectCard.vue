@@ -14,8 +14,8 @@
     <select
       class="form-select"
       aria-label="Default select example"
-      v-model="diseño"
-      @change="cambiarDiseño;"
+      v-model="design"
+      @change="cambiarDesign"
     >
       <option v-for="(st, index) in estilo" :value="st" :key="index">
         {{ st }}
@@ -26,13 +26,9 @@
 
 <script>
 export default {
-  data() {
-    return {
-      diseño: "T-Shirt",
-    };
-  },
   emits: ["response", "designe"],
   props: {
+    design: String,
     sexo: String,
     limpiar: Function,
     departmen: Array,
@@ -42,8 +38,8 @@ export default {
     cambiarSexo() {
       this.$emit("response", this.sexo);
     },
-    cambiarDiseño() {
-      this.$emit("designe", this.diseño);
+    cambiarDesign() {
+      this.$emit("designe", this.design);
     },
   },
 };
